@@ -1,6 +1,7 @@
 // open reservation popup
 function changeReservation() {
     document.getElementById("changeReservationPopup").classList.add("open");
+    return false;
 }
 
 // close reservation popup
