@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserveren - Escape Room KW1C</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/">Escape Room</a>
+            </div>
+            <div>
+                <a href="javacript:void(0)" class="btn btn--secondary" onclick="changeReservation()">Reservering bewerken</a>
+                <a href="#aanmelden" class="btn btn--primary">Meld je nu aan!</a>
+            </div>
+        </div>
+    </header>
+    <div id="changeReservationPopup">
+        <div class="box" onclick="event.stopPropagation()">
+            <div class="top">
+                <h2>Wil jij je reservering bewerken?</h2>
+                <span id="closeReservationPopup">&times;</span>
+            </div>
+            <p>
+                Stuur een mailtje naar <a href="mailto:#">example@email.com</a> met je groepsnaam. 
+                Zet hier in wat je wilt veranderen.
+            </p>
+            <p>
+                Zodra dit is veranderd ontvang je wederom een email met de nieuwe gegevens.
+            </p>
+            <a href="mailto:#" class="btn btn--primary">Stuur een mail</a>
+        </div>
+    </div>
+
+    <section class="confirmation">
+        <div class="container">
+            <h1>Bevestiging</h1>
+            <p>
+                Wat leuk dat jij mee wilt doen aan de escape room! Het inschrijven is gelukt. Je zal binnenkort een email ontvangen als bevestiging. Krijg je deze niet? Of heb je vragen? Mail dan naar <a href="mailto:#">example@email.com</a>.
+            </p>
+        </div>
+    </section>
+    <section class="what-now">
+        <div class="container">
+            <h2>Hoe nu verder?</h2>
+        </div>
+        <div class="container flex">
+            <div>
+                <img src="images/inschrijven.svg" alt="">
+                <p>Inschrijven</p>
+            </div>
+            <img src="images/pijl-up.png" alt="">
+            <div>
+                <img src="images/bevestigingsmail.svg" alt="">
+                <p>Bevestigingsmail</p>
+            </div>
+            <img src="images/pijl-down.png" alt="">
+            <div>
+                <img src="images/afwachten.svg" alt="">
+                <p>Afwachten</p>
+            </div>
+            <img src="images/pijl-up.png" alt="">
+            <div>
+                <img src="images/ontsnappen.svg" alt="">
+                <p>Ontsnappen</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

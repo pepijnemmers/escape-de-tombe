@@ -6,22 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserveren - Escape Room KW1C</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <script src="js/script.js" defer></script>
+    <script src="js/index.js" defer></script>
 </head>
 <body>
     <header>
         <div class="container">
-            <div class="logo">Escape Room</div>
+            <div class="logo">
+                <a href="/">Escape Room</a>
+            </div>
             <div>
-                <a href="#" class="btn btn--secondary" id="changeReservation">Reservering bewerken</a>
+                <a href="javacript:void(0)" class="btn btn--secondary" id="changeReservation">Reservering bewerken</a>
                 <a href="#aanmelden" class="btn btn--primary">Meld je nu aan!</a>
             </div>
         </div>
     </header>
-
-    <!--
     <div id="changeReservationPopup">
-        <div class="box">
-            <h2>Wil jij je reservering bewerken?</h2>
+        <div class="box" onclick="event.stopPropagation()">
+            <div class="top">
+                <h2>Wil jij je reservering bewerken?</h2>
+                <span id="closeReservationPopup">&times;</span>
+            </div>
             <p>
                 Stuur een mailtje naar <a href="mailto:#">example@email.com</a> met je groepsnaam. 
                 Zet hier in wat je wilt veranderen.
@@ -32,7 +37,6 @@
             <a href="mailto:#" class="btn btn--primary">Stuur een mail</a>
         </div>
     </div>
-    -->
 
     <section class="hero">
             <div class="container">
@@ -49,7 +53,102 @@
     </section>
 
     <section class="aanmelden" id="aanmelden">
+        <div class="container">
+            <div>
+                <h2>Meld je aan</h2>
+                <p>
+                    Wat leuk dat jij mee wilt doen aan de escape room! Vul onderstaand formulier in met jouw groepje om je in te schrijven. Als je klaar bent klik je op de knop en dan ontvang je een bevestiging in je mailbox. <br>
+                    Heb je vragen? Mail je vraag naar <a href="mailto:#">example@email.com</a>.
+                </p>
 
+                <!-- <form action="confirm.php" method="post" autocomplete="off"> -->
+                <form action="bevestiging.html" method="post" autocomplete="off">
+                    <p class="error-msg"></p>
+                    <div class="flex">
+                        <div>
+                            <label for="groupsname">Wat is jullie groepsnaam?*</label>
+                            <input type="text" name="groupsname" id="groupsname" placeholder="Vul je unieke groepsnaam in..." required>
+                        </div>
+                        <div>
+                            <label for="time">Kies een tijdsperiode voor hoelaat jullie komen*</label>
+                            <select name="time" id="time" required>
+                                <option value="" disabled selected hidden>Kies een tijd</option>
+                                
+                                <!-- TODO : php loop options hierin die nog vrij zijn -->
+                                <option value="09:00">09:00 - 10:00</option>
+                                <option value="10:00">10:00 - 11:00</option>
+                                <option value="11:00">11:00 - 12:00</option>
+                                <option value="12:00">12:00 - 13:00</option>
+                                <option value="13:00">13:00 - 14:00</option>
+                                <option value="14:00">14:00 - 15:00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="nrStudents">Met hoeveel studenten zijn jullie? (4-6 per groep)*</label>
+                        <select name="nrStudents" id="nrStudents" required>
+                            <option value="4" selected>4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                    <div class="students" id="studentsInputs">
+                        <div>
+                            <label for="student1Nr">Student 1*</label>
+                            <input type="text" name="student1Nr" id="student1Nr" placeholder="Studentnummer" required>
+                            <input type="text" name="student1Name" placeholder="Voor- en achternaam" required>
+                            <input type="text" name="student1Email" placeholder="Emailadres" required>
+                        </div>
+                        <div>
+                            <label for="student2Nr">Student 2*</label>
+                            <input type="text" name="student2Nr" id="student2Nr" placeholder="Studentnummer" required>
+                            <input type="text" name="student2Name" placeholder="Voor- en achternaam" required>
+                            <input type="text" name="student2Email" placeholder="Emailadres" required>
+                        </div>
+                        <div>
+                            <label for="student3Nr">Student 3*</label>
+                            <input type="text" name="student3Nr" id="student3Nr" placeholder="Studentnummer" required>
+                            <input type="text" name="student3Name" placeholder="Voor- en achternaam" required>
+                            <input type="text" name="student3Email" placeholder="Emailadres" required>
+                        </div>
+                        <div>
+                            <label for="student4Nr">Student 4*</label>
+                            <input type="text" name="student4Nr" id="student4Nr" placeholder="Studentnummer" required>
+                            <input type="text" name="student4Name" placeholder="Voor- en achternaam" required>
+                            <input type="text" name="student4Email" placeholder="Emailadres" required>
+                        </div>
+                        <div id="student5">
+                            <label for="student5Nr">Student 5*</label>
+                            <input type="text" name="student5Nr" id="student5Nr" placeholder="Studentnummer">
+                            <input type="text" name="student5Name" placeholder="Voor- en achternaam">
+                            <input type="text" name="student5Email" placeholder="Emailadres">
+                        </div>
+                        <div id="student6">
+                            <label for="student6Nr">Student 6*</label>
+                            <input type="text" name="student6Nr" id="student6Nr" placeholder="Studentnummer">
+                            <input type="text" name="student6Name" placeholder="Voor- en achternaam">
+                            <input type="text" name="student6Email" placeholder="Emailadres">
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <button type="submit" class="btn btn--primary">Reservering opslaan</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <h3>Reservering wijzigen?</h3>
+                <p>
+                    Stuur een mailtje naar <a href="mailto:#">example@email.com</a> met je groepsnaam. 
+                    Zet hier in wat je wilt veranderen.
+                </p>
+                <p>
+                    Zodra dit is veranderd ontvang je wederom een email met de nieuwe gegevens.
+                </p>
+                <a href="mailto:#" class="btn btn--secondary">Stuur een mail</a>
+            </div>
+        </div>
     </section>
 </body>
 </html>

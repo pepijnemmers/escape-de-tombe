@@ -63,6 +63,8 @@
 
 html {
   font-size: 62.5%;
+  scroll-padding-top: 12rem;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -70,12 +72,6 @@ body {
   color: #000;
   font-family: "Montserrat", sans-serif;
   font-size: clamp(1.4rem, 1.45rem + 0.42vw, 1.6rem);
-}
-
-h4 {
-  font-weight: 700;
-  color: #2563EB;
-  margin-bottom: 0.6em;
 }
 
 h1 {
@@ -86,9 +82,60 @@ h1 {
   text-transform: uppercase;
 }
 
+h2 {
+  font-size: clamp(2.4rem, 1.95rem + 1.25vw, 3rem);
+  font-weight: 800;
+}
+
+h3 {
+  font-size: clamp(2rem, 1.7rem + 0.83vw, 2.4rem);
+  font-weight: 700;
+}
+
+h4 {
+  font-weight: 700;
+  color: #2563EB;
+  margin-bottom: 0.6em;
+}
+
+h1, h2, h3 {
+  margin: 0.2em 0;
+}
+
 p {
-  color: #303030;
   line-height: 1.6;
+  margin-bottom: 0.5em;
+}
+
+a {
+  color: inherit;
+}
+
+label {
+  font: inherit;
+}
+
+input, select, textarea {
+  font: inherit;
+  border: 1px solid #ccc;
+  border-radius: 0.3em;
+  padding: 0.5em 0.8em;
+  outline: none;
+  -webkit-transition: border 150ms linear;
+  transition: border 150ms linear;
+}
+input:hover, select:hover, textarea:hover {
+  border-color: #aaa;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #888;
+}
+
+select {
+  cursor: pointer;
+}
+select:invalid {
+  color: #777;
 }
 
 .container {
@@ -96,11 +143,19 @@ p {
   margin: 0 auto;
 }
 
+section {
+  margin-bottom: 4em;
+}
+
 .btn {
+  all: unset;
   font-weight: 600;
   text-decoration: none;
   border-radius: 0.3em;
   display: inline-block;
+  cursor: pointer;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
 }
 .btn:not(:empty) {
   padding: 0.6em 2em;
@@ -110,9 +165,17 @@ p {
   background-color: #2563EB;
   color: #fff;
 }
+.btn--primary:hover, .btn--primary:focus {
+  border-color: #0d3792;
+  background-color: #0d3792;
+}
 .btn--secondary {
   border: 2px solid #2563EB;
   color: #2563EB;
+}
+.btn--secondary:hover, .btn--secondary:focus {
+  background-color: #2563EB;
+  color: #fff;
 }
 
 header {
@@ -142,8 +205,57 @@ header .logo {
   font-weight: 900;
   text-transform: uppercase;
 }
+header .logo a {
+  text-decoration: none;
+}
 header div .btn:nth-child(1) {
   margin-right: 0.8em;
+}
+
+#changeReservationPopup {
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: opacity 250ms ease;
+  transition: opacity 250ms ease;
+}
+#changeReservationPopup.open {
+  opacity: 1;
+  pointer-events: all;
+}
+#changeReservationPopup .box {
+  background-color: #fff;
+  padding: 1em 1.5em 1.5em 1.5em;
+  border-radius: 0.3em;
+  -webkit-box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.2);
+  width: min(95%, 700px);
+}
+#changeReservationPopup .box .top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 0.3em;
+}
+#changeReservationPopup .box .top span {
+  font-size: 4.5rem;
+  cursor: pointer;
+}
+#changeReservationPopup .box .btn {
+  margin-top: 1.3em;
 }
 
 .hero {
@@ -190,4 +302,146 @@ header div .btn:nth-child(1) {
 }
 .hero img:nth-child(2) {
   width: 20vw;
+}
+
+.aanmelden .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 4em;
+}
+.aanmelden .container > div:first-child {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 70%;
+          flex: 1 1 70%;
+}
+.aanmelden .container > div:first-child > p {
+  margin-bottom: 1.5em;
+}
+.aanmelden .container > div:last-child {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 30%;
+          flex: 1 1 30%;
+}
+.aanmelden form {
+  margin-top: 1em;
+}
+.aanmelden form .error-msg {
+  background-image: url(../images/warning.svg);
+  background-repeat: no-repeat;
+  background-size: 1.5em auto;
+  padding-left: 2em;
+  color: #f70f0f;
+  font-weight: 700;
+}
+.aanmelden form h3 {
+  margin-top: 0.5em;
+}
+.aanmelden form div {
+  margin-bottom: 1.2em;
+}
+.aanmelden form > .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-column-gap: 1em;
+     -moz-column-gap: 1em;
+          column-gap: 1em;
+  margin-bottom: 0;
+}
+.aanmelden form label {
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+.aanmelden form > .students {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-column-gap: 1em;
+     -moz-column-gap: 1em;
+          column-gap: 1em;
+}
+.aanmelden form > .students > div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 45%;
+          flex: 1 1 45%;
+}
+.aanmelden form .students > div input {
+  width: 49%;
+}
+.aanmelden form .students > div input[name*=Email] {
+  width: 99%;
+  margin-top: 0.5em;
+}
+.aanmelden form .students #student5,
+.aanmelden form .students #student6 {
+  display: none;
+}
+.aanmelden form .students.show5 #student5 {
+  display: unset;
+}
+.aanmelden form .students.show6 #student5,
+.aanmelden form .students.show6 #student6 {
+  display: unset;
+}
+.aanmelden form .btn {
+  padding: 0.6em 4em;
+}
+
+.confirmation {
+  margin-top: 5rem;
+}
+.confirmation h1 {
+  font-size: clamp(2.8rem, 2.27rem + 1.46vw, 3.5rem);
+  letter-spacing: 1px;
+}
+
+.what-now .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 2em;
+}
+.what-now .flex > * {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 14%;
+          flex: 1 1 14%;
+}
+.what-now .flex > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1em;
+}
+.what-now .flex > div img {
+  width: 4em;
+  height: auto;
+}
+.what-now .flex > img {
+  width: 50%;
+  height: auto;
+  -webkit-transform: translateY(-4rem);
+          transform: translateY(-4rem);
+}
+.what-now .flex > img[src*=down] {
+  -webkit-transform: translateY(2rem);
+          transform: translateY(2rem);
 }
