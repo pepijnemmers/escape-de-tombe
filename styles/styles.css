@@ -61,6 +61,24 @@
           box-sizing: border-box;
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --clr-bg: #fff;
+    --clr-text: #000;
+    --clr-text-btn: var(--clr-bg);
+    --clr-primary: #2563EB;
+    --clr-primary-h: #0d3792;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --clr-bg: #202020;
+    --clr-text: #f2f2f2;
+    --clr-text-btn: var(--clr-bg);
+    --clr-primary: #007c34;
+    --clr-primary-h: #005f28;
+  }
+}
 html {
   font-size: 62.5%;
   scroll-padding-top: 12rem;
@@ -68,8 +86,8 @@ html {
 }
 
 body {
-  background-color: #fff;
-  color: #000;
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
   font-family: "Montserrat", sans-serif;
   font-size: clamp(1.4rem, 1.45rem + 0.42vw, 1.6rem);
 }
@@ -94,7 +112,7 @@ h3 {
 
 h4 {
   font-weight: 700;
-  color: #2563EB;
+  color: var(--clr-primary);
   margin-bottom: 0.6em;
 }
 
@@ -161,21 +179,21 @@ section {
   padding: 0.6em 2em;
 }
 .btn--primary {
-  border: 2px solid #2563EB;
-  background-color: #2563EB;
-  color: #fff;
+  border: 2px solid var(--clr-primary);
+  background-color: var(--clr-primary);
+  color: var(--clr-text-btn);
 }
 .btn--primary:hover, .btn--primary:focus {
   border-color: #0d3792;
   background-color: #0d3792;
 }
 .btn--secondary {
-  border: 2px solid #2563EB;
-  color: #2563EB;
+  border: 2px solid var(--clr-primary);
+  color: var(--clr-primary);
 }
 .btn--secondary:hover, .btn--secondary:focus {
-  background-color: #2563EB;
-  color: #fff;
+  background-color: var(--clr-primary);
+  color: var(--clr-text-btn);
 }
 
 header {
@@ -183,7 +201,7 @@ header {
   z-index: 9999;
   top: 0;
   left: 0;
-  background-color: #fff;
+  background-color: var(--clr-bg);
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
@@ -231,7 +249,7 @@ header div .btn:nth-child(1) {
   pointer-events: all;
 }
 #changeReservationPopup .box {
-  background-color: #fff;
+  background-color: var(--clr-bg);
   padding: 1em 1.5em 1.5em 1.5em;
   border-radius: 0.3em;
   -webkit-box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.2);
@@ -289,7 +307,7 @@ header div .btn:nth-child(1) {
   text-transform: uppercase;
 }
 .hero .container div h1 span {
-  color: #2563EB;
+  color: var(--clr-primary);
 }
 .hero .container div p {
   margin-top: 1.6em;
