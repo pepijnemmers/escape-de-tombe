@@ -75,8 +75,8 @@
     --clr-bg: #202020;
     --clr-text: #f2f2f2;
     --clr-text-btn: var(--clr-bg);
-    --clr-primary: #007c34;
-    --clr-primary-h: #005f28;
+    --clr-primary: #e4b700;
+    --clr-primary-h: #c79f00;
   }
 }
 html {
@@ -184,8 +184,8 @@ section {
   color: var(--clr-text-btn);
 }
 .btn--primary:hover, .btn--primary:focus {
-  border-color: #0d3792;
-  background-color: #0d3792;
+  border-color: var(--clr-primary-h);
+  background-color: var(--clr-primary-h);
 }
 .btn--secondary {
   border: 2px solid var(--clr-primary);
@@ -206,7 +206,7 @@ header {
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 header .container {
-  height: 8rem;
+  min-height: 8rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -228,6 +228,20 @@ header .logo a {
 }
 header div .btn:nth-child(1) {
   margin-right: 0.8em;
+}
+@media screen and (max-width: 690px) {
+  header .btn--secondary {
+    margin: 0 !important;
+    padding: 0.6em 1em !important;
+  }
+  header .btn--primary {
+    display: none;
+  }
+}
+@media screen and (max-width: 435px) {
+  header .btn--secondary {
+    display: none;
+  }
 }
 
 #changeReservationPopup {
@@ -285,7 +299,7 @@ header div .btn:nth-child(1) {
           align-items: center;
 }
 .hero .container {
-  height: calc(100vh - 8rem);
+  min-height: calc(100vh - 8rem);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -314,12 +328,19 @@ header div .btn:nth-child(1) {
   margin-bottom: 2em;
 }
 .hero .container > img {
-  height: 80vh;
+  min-height: 80vh;
   width: auto;
   border-radius: 0.5em;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .hero img:nth-child(2) {
   width: 20vw;
+}
+@media screen and (max-width: 768px) {
+  .hero img:nth-child(2) {
+    display: none;
+  }
 }
 
 .aanmelden .container {
@@ -340,6 +361,17 @@ header div .btn:nth-child(1) {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 30%;
           flex: 1 1 30%;
+}
+@media screen and (max-width: 991px) {
+  .aanmelden .container {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .aanmelden .container > div {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1 100%;
+            flex: 1 1 100%;
+  }
 }
 .aanmelden form {
   margin-top: 1em;
@@ -386,8 +418,8 @@ header div .btn:nth-child(1) {
 }
 .aanmelden form > .students > div {
   -webkit-box-flex: 1;
-      -ms-flex: 1 1 45%;
-          flex: 1 1 45%;
+      -ms-flex: 1 1 max(350px, 45%);
+          flex: 1 1 max(350px, 45%);
 }
 .aanmelden form .students > div input {
   width: 49%;
@@ -409,6 +441,13 @@ header div .btn:nth-child(1) {
 }
 .aanmelden form .btn {
   padding: 0.6em 4em;
+}
+@media screen and (max-width: 600px) {
+  .aanmelden form .btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.6em 0;
+  }
 }
 
 .confirmation {
@@ -462,4 +501,21 @@ header div .btn:nth-child(1) {
 .what-now .flex > img[src*=down] {
   -webkit-transform: translateY(2rem);
           transform: translateY(2rem);
+}
+@media screen and (max-width: 1180px) {
+  .what-now .flex > img {
+    width: 10vw;
+  }
+}
+@media screen and (max-width: 768px) {
+  .what-now .flex > img {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .what-now .flex {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    gap: 2em;
+  }
 }
