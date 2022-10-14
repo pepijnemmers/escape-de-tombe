@@ -61,24 +61,33 @@
           box-sizing: border-box;
 }
 
+:root {
+  --clr-bg: #202020;
+  --clr-text: #f2f2f2;
+  --clr-text-btn: var(--clr-bg);
+  --clr-primary: #e4b700;
+  --clr-primary-h: #c79f00;
+}
+
+/*
 @media (prefers-color-scheme: light) {
-  :root {
-    --clr-bg: #fff;
-    --clr-text: #000;
-    --clr-text-btn: var(--clr-bg);
-    --clr-primary: #2563EB;
-    --clr-primary-h: #0d3792;
-  }
+        --clr-bg: #fff;
+        --clr-text: #000;
+        --clr-text-btn: var(--clr-bg);
+        --clr-primary: #2563EB;
+        --clr-primary-h: #0d3792;
+    }
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --clr-bg: #202020;
-    --clr-text: #f2f2f2;
-    --clr-text-btn: var(--clr-bg);
-    --clr-primary: #e4b700;
-    --clr-primary-h: #c79f00;
-  }
+    :root {
+        --clr-bg: #202020;
+        --clr-text: #f2f2f2;
+        --clr-text-btn: var(--clr-bg);
+        --clr-primary: #e4b700;
+        --clr-primary-h: #c79f00;
+    }
 }
+*/
 html {
   font-size: 62.5%;
   scroll-padding-top: 12rem;
@@ -135,25 +144,35 @@ label {
 
 input, select, textarea {
   font: inherit;
-  border: 1px solid #ccc;
+  font-size: clamp(1.4rem, 1.45rem + 0.42vw, 1.6rem);
+  border: none;
   border-radius: 0.3em;
   padding: 0.5em 0.8em;
   outline: none;
+  background-color: #353535;
+  color: var(--clr-text);
   -webkit-transition: border 150ms linear;
   transition: border 150ms linear;
 }
-input:hover, select:hover, textarea:hover {
-  border-color: #aaa;
+input::-webkit-input-placeholder, select::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #aaa;
 }
-input:focus, select:focus, textarea:focus {
-  border-color: #888;
+input::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {
+  color: #aaa;
+}
+input:-ms-input-placeholder, select:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #aaa;
+}
+input::-ms-input-placeholder, select::-ms-input-placeholder, textarea::-ms-input-placeholder {
+  color: #aaa;
+}
+input::placeholder, select::placeholder, textarea::placeholder {
+  color: #aaa;
 }
 
 select {
   cursor: pointer;
-}
-select:invalid {
-  color: #777;
+  color: var(--clr-text);
 }
 
 .container {
@@ -202,8 +221,6 @@ header {
   top: 0;
   left: 0;
   background-color: var(--clr-bg);
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 header .container {
   min-height: 8rem;
@@ -362,6 +379,9 @@ header div .btn:nth-child(1) {
       -ms-flex: 1 1 30%;
           flex: 1 1 30%;
 }
+.aanmelden .container > div:last-child .btn {
+  margin-top: 1em;
+}
 @media screen and (max-width: 991px) {
   .aanmelden .container {
     -ms-flex-wrap: wrap;
@@ -387,8 +407,8 @@ header div .btn:nth-child(1) {
 .aanmelden form h3 {
   margin-top: 0.5em;
 }
-.aanmelden form div {
-  margin-bottom: 1.2em;
+.aanmelden form > div:not(:last-of-type) {
+  margin-bottom: 2em;
 }
 .aanmelden form > .flex {
   display: -webkit-box;
@@ -420,6 +440,7 @@ header div .btn:nth-child(1) {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 max(350px, 45%);
           flex: 1 1 max(350px, 45%);
+  margin-bottom: 2em;
 }
 .aanmelden form .students > div input {
   width: 49%;

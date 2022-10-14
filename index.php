@@ -22,7 +22,7 @@
                     </p>
                     <a href="#aanmelden" class="btn btn--primary">Doe jij mee? Meld je aan!</a>
                 </div>
-                <img src="images/hero.jpg" alt="hero image">
+                <img src="images/tomb.webp" alt="hero image">
             </div>
     </section>
 
@@ -77,37 +77,35 @@
                             <label for="student2Nr">Student 2*</label>
                             <input type="text" name="student2Nr" id="student2Nr" placeholder="Studentnummer" required>
                             <input type="text" name="student2Name" placeholder="Voor- en achternaam" required>
-                            <input type="text" name="student2Email" placeholder="Emailadres (@edu-kw1c.nl)" required>
+                            <input type="text" name="student2Email" placeholder="Emailadres (@edu-kw1c.nl)" required pattern="[a-z0-9._%+-]+@edu-kw1c.nl$">
                         </div>
                         <div>
                             <label for="student3Nr">Student 3*</label>
                             <input type="text" name="student3Nr" id="student3Nr" placeholder="Studentnummer" required>
                             <input type="text" name="student3Name" placeholder="Voor- en achternaam" required>
-                            <input type="text" name="student3Email" placeholder="Emailadres (@edu-kw1c.nl)" required>
+                            <input type="text" name="student3Email" placeholder="Emailadres (@edu-kw1c.nl)" required pattern="[a-z0-9._%+-]+@edu-kw1c.nl$">
                         </div>
                         <div>
                             <label for="student4Nr">Student 4*</label>
                             <input type="text" name="student4Nr" id="student4Nr" placeholder="Studentnummer" required>
                             <input type="text" name="student4Name" placeholder="Voor- en achternaam" required>
-                            <input type="text" name="student4Email" placeholder="Emailadres (@edu-kw1c.nl)" required>
+                            <input type="text" name="student4Email" placeholder="Emailadres (@edu-kw1c.nl)" required pattern="[a-z0-9._%+-]+@edu-kw1c.nl$">
                         </div>
                         <div id="student5">
                             <label for="student5Nr">Student 5*</label>
                             <input type="text" name="student5Nr" id="student5Nr" placeholder="Studentnummer">
                             <input type="text" name="student5Name" placeholder="Voor- en achternaam">
-                            <input type="text" name="student5Email" placeholder="Emailadres (@edu-kw1c.nl)">
+                            <input type="text" name="student5Email" placeholder="Emailadres (@edu-kw1c.nl)" pattern="[a-z0-9._%+-]+@edu-kw1c.nl$">
                         </div>
                         <div id="student6">
                             <label for="student6Nr">Student 6*</label>
                             <input type="text" name="student6Nr" id="student6Nr" placeholder="Studentnummer">
                             <input type="text" name="student6Name" placeholder="Voor- en achternaam">
-                            <input type="text" name="student6Email" placeholder="Emailadres (@edu-kw1c.nl)">
+                            <input type="text" name="student6Email" placeholder="Emailadres (@edu-kw1c.nl)" pattern="[a-z0-9._%+-]+@edu-kw1c.nl$">
                         </div>
                     </div>
 
-                    <div class="flex">
                         <button type="submit" class="btn btn--primary">Reservering opslaan</button>
-                    </div>
                 </form>
             </div>
             <div>

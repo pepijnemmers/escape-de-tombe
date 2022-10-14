@@ -8,8 +8,16 @@
     box-sizing: border-box;
 }
 
+:root {
+    --clr-bg: #202020;
+    --clr-text: #f2f2f2;
+    --clr-text-btn: var(--clr-bg);
+    --clr-primary: #e4b700;
+    --clr-primary-h: #c79f00;
+}
+
+/*
 @media (prefers-color-scheme: light) {
-    :root {
         --clr-bg: #fff;
         --clr-text: #000;
         --clr-text-btn: var(--clr-bg);
@@ -26,6 +34,7 @@
         --clr-primary-h: #c79f00;
     }
 }
+*/
 
 html {
     font-size: 62.5%;
@@ -75,25 +84,22 @@ label {
 }
 input, select, textarea {
     font: inherit;
-    border: 1px solid #ccc;
+    font-size: clamp(1.4rem, 1.45rem + 0.42vw, 1.6rem);
+    border: none; // 1px solid #aaa
     border-radius: .3em;
     padding: .5em .8em;
     outline: none;
+    background-color: #353535;
+    color: var(--clr-text);
     transition: border 150ms linear;
 
-    &:hover {
-        border-color: #aaa;
-    }
-    &:focus {
-        border-color: #888;
+    &::placeholder {
+        color: #aaa;
     }
 }
 select {
     cursor: pointer;
-
-    &:invalid {
-        color: #777;
-    }
+    color: var(--clr-text);
 }
 
 .container {
@@ -143,7 +149,6 @@ header {
     top: 0;
     left: 0;
     background-color: var(--clr-bg);
-    box-shadow: 0 0 5px rgba(0,0,0,.2);
     
     .container {
         min-height: $header-height;
@@ -281,6 +286,10 @@ header {
         }
         & > div:last-child {
             flex: 1 1 30%;
+
+            .btn {
+                margin-top: 1em;
+            }
         }
         @media screen and (max-width: 991px) {
             flex-wrap: wrap;
@@ -303,8 +312,8 @@ header {
         h3 {
             margin-top: .5em;
         }
-        div {
-            margin-bottom: 1.2em;
+        & > div:not(:last-of-type) {
+            margin-bottom: 2em;
         }
         & > .flex {
             display: flex;
@@ -324,6 +333,7 @@ header {
 
             & > div {
                 flex: 1 1 max(350px, 45%);
+                margin-bottom: 2em;
             }
         }
         .students > div input {
