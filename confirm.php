@@ -13,6 +13,9 @@ $connectionOptions = array(
     $params = array($_POST["groupsname"]);
     $stmt = sqlsrv_query($conn, $tsql, $params);
     if( $stmt === false ) {
+        if( ($errors = sqlsrv_errors() ) != null) {
+            header("location: index.php");
+        }
         die( print_r( sqlsrv_errors(), true));
     }
 }
@@ -21,8 +24,12 @@ $connectionOptions = array(
     $tsql= "SELECT * FROM Groep WHERE Naam = ?";
     $params = array($_POST["groupsname"]);
     $getResults= sqlsrv_query($conn, $tsql, $params);
-    if ($getResults == FALSE)
-        echo (sqlsrv_errors());
+    if( $getResults === false ) {
+        if( ($errors = sqlsrv_errors() ) != null) {
+            header("location: index.php");
+        }
+        die( print_r( sqlsrv_errors(), true));
+    }
 
     $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);  
     
@@ -30,6 +37,9 @@ $connectionOptions = array(
     $params = array($row['GroepId'], $_POST["time"]);
     $stmt = sqlsrv_query($conn, $tsql, $params);
     if( $stmt === false ) {
+        if( ($errors = sqlsrv_errors() ) != null) {
+            header("location: index.php");
+        }
         die( print_r( sqlsrv_errors(), true));
     }
 }
@@ -38,8 +48,12 @@ $connectionOptions = array(
     $tsql= "SELECT * FROM Groep WHERE Naam = ?";
     $params = array($_POST["groupsname"]);
     $getResults= sqlsrv_query($conn, $tsql, $params);
-    if ($getResults == FALSE)
-        echo (sqlsrv_errors());
+    if( $getResults === false ) {
+        if( ($errors = sqlsrv_errors() ) != null) {
+            header("location: index.php");
+        }
+        die( print_r( sqlsrv_errors(), true));
+    }
 
     $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);  
 
@@ -49,9 +63,13 @@ $connectionOptions = array(
         $params = array($_POST["student" . $i + 1 . "Nr"], $_POST["student" . $i + 1 . "Name"], $_POST["student" . $i + 1 . "Email"], $row['GroepId']);
         $stmt = sqlsrv_query($conn, $tsql, $params);
         if( $stmt === false ) {
+            if( ($errors = sqlsrv_errors() ) != null) {
+                header("location: index.php");
+            }
             die( print_r( sqlsrv_errors(), true));
         }
     }
 }
 
+header("location: bevestiging.php");
 ?>

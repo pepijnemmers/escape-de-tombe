@@ -1,3 +1,16 @@
+<?php
+$serverName = "reseveringsysteem.database.windows.net";
+$connectionOptions = array(
+    "Database" => "Reserveringssysteem",
+    "Uid" => "Admin123",
+    "PWD" => "R070507038!"
+);
+    $conn = sqlsrv_connect($serverName, $connectionOptions);
+    $tsql= "SELECT *, t.TijdslotId AS TijdId FROM Tijdslot AS t LEFT JOIN GroepTijdslot AS gt ON t.TijdslotId = gt.TijdslotId WHERE gt.TijdslotId IS NULL;";
+    $getResults= sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+        echo (sqlsrv_errors());
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,17 +60,21 @@
                             <select name="time" id="time" required>
                                 <option value="" disabled selected hidden>Kies een tijd</option>
                                 
-                                <!-- TODO : php loop options hierin die nog vrij zijn -->
-                                <option value="09:00">09:00 - 10:00</option>
-                                <option value="10:00">10:00 - 11:00</option>
-                                <option value="11:00">11:00 - 12:00</option>
-                                <option value="12:00">12:00 - 13:00</option>
-                                <option value="13:00">13:00 - 14:00</option>
-                                <option value="14:00">14:00 - 15:00</option>
+                                <!-- TODO : php loop options hierin die nog vrij zijn -->                                
+                                <?php 
+                                while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) 
+                                {
+                                    $time = $row["Tijd"]->format("H:i");
+                                    $endtime = $row["Tijd"]->add(new DateInterval('PT45M'));
+                                    $endtime = $endtime->format("H:i");
+                            
+                                echo "<option value=" . $row['TijdId'] . ">" . $time . " - " . $endtime . "</option>";
+                                }
+                                ?>
+                               
                             </select>
                         </div>
                     </div>
-
                     <div>
                         <label for="nrStudents">Met hoeveel studenten zijn jullie? (4-6 per groep)*</label>
                         <select name="nrStudents" id="nrStudents" required>
