@@ -16,12 +16,12 @@
                 <span id="closeReservationPopup">&times;</span>
             </div>
             <p>
-                Stuur een mailtje naar <a href="mailto:#">example@email.com</a> met je groepsnaam. 
+                Stuur een mailtje naar <a href="mailto:info@escaperoomkw1c.nl">info@escaperoomkw1c.nl</a> met je groepsnaam. 
                 Zet hier in wat je wilt veranderen.
             </p>
             <p>
                 Zodra dit is veranderd ontvang je wederom een email met de nieuwe gegevens.
             </p>
-            <a href="mailto:#" class="btn btn--primary">Stuur een mail</a>
+            <a href="mailto:info@escaperoomkw1c.nl" class="btn btn--primary">Stuur een mail</a>
         </div>
     </div>

@@ -15,7 +15,7 @@
         <div class="container">
             <h1>Bevestiging</h1>
             <p>
-                Wat leuk dat jij mee wilt doen aan de escape room! Het inschrijven is gelukt. Je zal binnenkort een email ontvangen als bevestiging. Krijg je deze niet? Of heb je vragen? Mail dan naar <a href="mailto:#">example@email.com</a>.
+                Wat leuk dat jij mee wilt doen aan de escape room! Het inschrijven is gelukt. Je zal binnenkort een email ontvangen als bevestiging. Krijg je deze niet? Of heb je vragen? Mail dan naar <a href="mailto:info@escaperoomkw1c.nl">info@escaperoomkw1c.nl</a>.
             </p>
         </div>
     </section>
