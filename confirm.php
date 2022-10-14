@@ -1,4 +1,14 @@
 <?php
+
+// Import PHPMailer classes into the global namespace
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require "PHPMailer/src/Exception.php";
+require "PHPMailer/src/PHPMailer.php";
+require "PHPMailer/src/SMTP.php";
+
+
 $serverName = "reseveringsysteem.database.windows.net";
 $connectionOptions = array(
     "Database" => "Reserveringssysteem",
@@ -70,6 +80,38 @@ $connectionOptions = array(
         }
     }
 }
+
+
+// send email 
+$mail = new PHPMailer(true);
+
+// Sending email
+try {
+    //Server settings
+    $mail->SMTPDebug = 0;                                       //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = '';                                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = "info@escaperoomkw1c.nl";               //SMTP username
+    $mail->Password   = "";                                     //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
+    $mail->Port       = 587;                                    //TCP port to connect to
+
+    //Recipients
+    $mail->setFrom('info@escaperoomkw1c.nl', 'Escaperoom KW1C');      // van wie
+    $mail->addAddress('');                                      // aan wie
+
+    //Content
+    $mail->isHTML(true);                                        //Set email format to HTML
+    $mail->Subject = 'Uw reservering voor de Escaperoom is geslaagd!';
+    $mail->Body    = "Content";
+    $mail->AltBody = 'Please use an e-mail provider that supports HTML mail.';
+
+    $mail->send();
+} catch (Exception $e) {
+    echo "Er is iets mis gegaan.";
+}
+
 
 header("location: bevestiging.php");
 ?>
