@@ -1,15 +1,41 @@
 <?php
-$serverName = "reseveringsysteem.database.windows.net";
-$connectionOptions = array(
-    "Database" => "Reserveringssysteem",
-    "Uid" => "Admin123",
-    "PWD" => "R070507038!"
-);
-    $conn = sqlsrv_connect($serverName, $connectionOptions);
-    $tsql= "SELECT *, t.TijdslotId AS TijdId FROM Tijdslot AS t LEFT JOIN GroepTijdslot AS gt ON t.TijdslotId = gt.TijdslotId WHERE gt.TijdslotId IS NULL;";
-    $getResults= sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
-        echo (sqlsrv_errors());
+$user = 'root';
+$password = "";
+$name = "Reserveringssysteem";
+$host = "127.0.0.1:433";
+
+$pdo = null;
+
+// Starten van een DB connectie
+function startConnection()
+{
+    global $pdo;
+    // Open de database connectie en ODBC driver
+    try
+    {
+        $pdo = new PDO("mysql:host=127.0.0.1;dbname=Reserveringssysteem", 'root', "");
+    }
+    catch (PDOException $e)
+    {
+        header("location: index.php");
+    }
+}
+
+// Start de database verbinding
+startConnection();
+
+$query = "SELECT * FROM Tijdslot";
+
+try
+{
+    // Query uitvoeren
+    $result = $pdo->query($query);
+}
+catch (PDOException $e)
+{
+    header("location: index.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,13 +88,13 @@ $connectionOptions = array(
                                 
                                 <!-- TODO : php loop options hierin die nog vrij zijn -->                                
                                 <?php 
-                                while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) 
+                                while($row = $result->fetch()) 
                                 {
-                                    $time = $row["Tijd"]->format("H:i");
-                                    $endtime = $row["Tijd"]->add(new DateInterval('PT45M'));
-                                    $endtime = $endtime->format("H:i");
+                                    $time = $row['Tijd'];
+                                    $starttime = date("H:i", strtotime($time));
+                                    $endtime = date("H:i", strtotime("+40 minutes",strtotime($time)));
                             
-                                echo "<option value=" . $row['TijdId'] . ">" . $time . " - " . $endtime . "</option>";
+                                    echo("<option value=" . $row['TijdslotId'] . ">" . $starttime . " - " . $endtime . "</option>");
                                 }
                                 ?>
                                

@@ -9,78 +9,90 @@ require "PHPMailer/src/PHPMailer.php";
 require "PHPMailer/src/SMTP.php";
 
 
-$serverName = "reseveringsysteem.database.windows.net";
-$connectionOptions = array(
-    "Database" => "Reserveringssysteem",
-    "Uid" => "Admin123",
-    "PWD" => "R070507038!"
-);
+// Een "leeg" $pdo variabele aanmaken
+$pdo = null;
 
-//Establishes the connection
+// Starten van een DB connectie
+function startConnection()
 {
-    $conn = sqlsrv_connect($serverName, $connectionOptions);
-    $tsql= "INSERT INTO Groep(Naam) VALUES (?)";
-    $params = array($_POST["groupsname"]);
-    $stmt = sqlsrv_query($conn, $tsql, $params);
-    if( $stmt === false ) {
-        if( ($errors = sqlsrv_errors() ) != null) {
-            header("location: index.php");
-        }
-        die( print_r( sqlsrv_errors(), true));
+    global $pdo;
+    // Open de database connectie en ODBC driver
+    try
+    {
+        $pdo = new PDO("mysql:host=127.0.0.1;dbname=Reserveringssysteem", 'root', "");
+    }
+    catch (PDOException $e)
+    {
+        header("location: index.php");
+    }
+}
+
+// Start de database verbinding
+startConnection();
+
+// // DB data
+// $user = 'root';
+// $password = "";
+// $name = "Reserveringssysteem";
+// $host = "127.0.0.1";
+
+{
+    $stmt = $pdo->prepare("INSERT INTO Groep(Naam) VALUES (?)");   
+
+    try
+    {
+        $stmt->execute([$_POST["groupsname"]]);
+    }
+    catch(Exception)
+    {
+        header("location: index.php");
     }
 }
 {
-    $conn = sqlsrv_connect($serverName, $connectionOptions);
-    $tsql= "SELECT * FROM Groep WHERE Naam = ?";
-    $params = array($_POST["groupsname"]);
-    $getResults= sqlsrv_query($conn, $tsql, $params);
-    if( $getResults === false ) {
-        if( ($errors = sqlsrv_errors() ) != null) {
-            header("location: index.php");
-        }
-        die( print_r( sqlsrv_errors(), true));
+    try
+    {
+        $result = $pdo->query("SELECT * FROM Groep WHERE Naam = '" . $_POST["groupsname"] . "'");
     }
-
-    $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);  
+    catch(Exception)
+    {
+        header("location: index.php");
+    }
     
-    $tsql = "INSERT INTO GroepTijdslot(GroepId, TijdslotId) VALUES (?, ?)";
-    $params = array($row['GroepId'], $_POST["time"]);
-    $stmt = sqlsrv_query($conn, $tsql, $params);
-    if( $stmt === false ) {
-        if( ($errors = sqlsrv_errors() ) != null) {
-            header("location: index.php");
-        }
-        die( print_r( sqlsrv_errors(), true));
+    $stmt = $pdo->prepare("INSERT INTO GroepTijdslot(GroepId, TijdslotId) VALUES (?, ?)");
+    try
+    {
+        $row = $result->fetch();
+        $result = $stmt->execute([$row['GroepId'], $_POST["time"]]);
+    }
+    catch(Exception)
+    {
+        header("location: index.php");
     }
 }
 {
-    $conn = sqlsrv_connect($serverName, $connectionOptions);
-    $tsql= "SELECT * FROM Groep WHERE Naam = ?";
-    $params = array($_POST["groupsname"]);
-    $getResults= sqlsrv_query($conn, $tsql, $params);
-    if( $getResults === false ) {
-        if( ($errors = sqlsrv_errors() ) != null) {
-            header("location: index.php");
-        }
-        die( print_r( sqlsrv_errors(), true));
+    try
+    {
+        $result1 = $pdo->query("SELECT * FROM Groep WHERE Naam = '" . $_POST["groupsname"] . "'");
     }
-
-    $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);  
+    catch(Exception)
+    {
+        header("location: index.php");
+    }
 
     for($i = 0; $i < $_POST["nrStudents"]; $i++)
     {
-        $tsql = "INSERT INTO Student(Studentnummer, Naam, Email, GroepId) VALUES (?, ?, ?, ?)";
-        $params = array($_POST["student" . $i + 1 . "Nr"], $_POST["student" . $i + 1 . "Name"], $_POST["student" . $i + 1 . "Email"], $row['GroepId']);
-        $stmt = sqlsrv_query($conn, $tsql, $params);
-        if( $stmt === false ) {
-            if( ($errors = sqlsrv_errors() ) != null) {
-                header("location: index.php");
-            }
-            die( print_r( sqlsrv_errors(), true));
+        $stmt = $pdo->prepare("INSERT INTO Student(Studentnummer, Naam, Email, GroepId) VALUES (?, ?, ?, ?)");
+        try
+        {
+            $row = $result1->fetch();
+            $result = $stmt->execute([$_POST["student" . $i + 1 . "Nr"], $_POST["student" . $i + 1 . "Name"], $_POST["student" . $i + 1 . "Email"], $row['GroepId']]);
+        }
+        catch(Exception)
+        {
+            header("location: index.php");
         }
     }
 }
-
 
 // send email 
 $mail = new PHPMailer(true);
