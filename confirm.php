@@ -84,7 +84,7 @@ try {
         $Studentnummer = $_POST["student{$i}Nr"];
         $Naam = $_POST["student{$i}Name"];
         $Email = $_POST["student{$i}Email"];
-        $GroepId = $resultGroep['GroepId'];
+        $GroepId = $GroepId;
         $stmt->execute();
     }
 
@@ -96,11 +96,6 @@ catch (Exception $e) {
 }
 
 
-
-/*
-
-TODO : ADD MAIL
-
 // send email 
 $mail = new PHPMailer(true);
 
@@ -109,16 +104,20 @@ try {
     //Server settings
     $mail->SMTPDebug = 0;                                       //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = '';                                     //Set the SMTP server to send through
+    $mail->Host       = 'mail.mijndomein.nl';                   //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = "info@escapedetombe.nl";               //SMTP username
-    $mail->Password   = "";                                     //SMTP password
+    $mail->Username   = "noreply@escapedetombe.nl";                //SMTP username
+    $mail->Password   = "H1lBOG8d8%RT&4F";                      //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
     $mail->Port       = 587;                                    //TCP port to connect to
 
     //Recipients
-    $mail->setFrom('info@escapedetombe.nl', 'Escaperoom KW1C');      // van wie
-    $mail->addAddress('');                                      // aan wie
+    $mail->setFrom('noreply@escapedetombe.nl', 'Escape de Tombe - KW1C');      // van wie
+
+    for($i = 1; $i <= $_POST["nrStudents"]; $i++)               // aan wie
+    {
+        $mail->addAddress($_POST["student{$i}Email"]);
+    }
 
     //Content
     $mail->isHTML(true);                                        //Set email format to HTML
@@ -128,10 +127,9 @@ try {
 
     $mail->send();
 } catch (Exception $e) {
-    echo "Er is iets mis gegaan.";
+    echo "Er is iets mis gegaan met de mail.";
 }
 
-header("location: bevestiging.php");
+header("location: /bevestiging");
 
-*/
 ?>
