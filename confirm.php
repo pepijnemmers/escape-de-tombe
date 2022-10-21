@@ -8,91 +8,98 @@ require "PHPMailer/src/Exception.php";
 require "PHPMailer/src/PHPMailer.php";
 require "PHPMailer/src/SMTP.php";
 
+// include database functions
+include "includes/db-functions.php";
 
-// Een "leeg" $pdo variabele aanmaken
-$pdo = null;
-
-// Starten van een DB connectie
-function startConnection()
-{
-    global $pdo;
-    // Open de database connectie en ODBC driver
-    try
-    {
-        $pdo = new PDO("mysql:host=127.0.0.1;dbname=Reserveringssysteem", 'root', "");
-    }
-    catch (PDOException $e)
-    {
-        header("location: index.php");
-    }
+// redirect if form isnt submitted
+if (!isset($_POST["groupsname"])) {
+    header("Location: /?error#aanmelden");
 }
 
-// Start de database verbinding
-startConnection();
-
-// // DB data
-// $user = 'root';
-// $password = "";
-// $name = "Reserveringssysteem";
-// $host = "127.0.0.1";
-
-{
-    $stmt = $pdo->prepare("INSERT INTO Groep(Naam) VALUES (?)");   
-
-    try
-    {
-        $stmt->execute([$_POST["groupsname"]]);
-    }
-    catch(Exception)
-    {
-        header("location: index.php");
-    }
-}
-{
-    try
-    {
-        $result = $pdo->query("SELECT * FROM Groep WHERE Naam = '" . $_POST["groupsname"] . "'");
-    }
-    catch(Exception)
-    {
-        header("location: index.php");
-    }
+// get current data to confirm
+try {
+    $conn = openConn();
     
-    $stmt = $pdo->prepare("INSERT INTO GroepTijdslot(GroepId, TijdslotId) VALUES (?, ?)");
-    try
-    {
-        $row = $result->fetch();
-        $result = $stmt->execute([$row['GroepId'], $_POST["time"]]);
-    }
-    catch(Exception)
-    {
-        header("location: index.php");
+    $sql = "SELECT * FROM `groep`";
+    $resultGroep = $conn->query($sql);
+
+    $sql = "SELECT * FROM `student`";
+    $resultStudent = $conn->query($sql);
+
+    $sql = "SELECT * FROM `tijdslot`";
+    $resultTijdslot = $conn->query($sql);
+    
+    closeConn($conn);
+} catch (Exception $e) {
+    header("Location: /?error#aanmelden");
+}
+
+// check of groep of student al bestaat
+if ($resultGroep->num_rows > 0) {
+    while($row = $resultGroep->fetch_assoc()) {
+        if ($_POST["groupsname"] == $row["Naam"]) {
+            header("Location: /?error=groep_exists#aanmelden");
+        }
     }
 }
-{
-    try
-    {
-        $result1 = $pdo->query("SELECT * FROM Groep WHERE Naam = '" . $_POST["groupsname"] . "'");
+if ($resultStudent->num_rows > 0) {
+    while($row = $resultStudent->fetch_assoc()) {
+        for($i = 1; $i <= $_POST["nrStudents"]; $i++)
+        {
+            if ($_POST["student{$i}Nr"] == $row["Studentnummer "]) {
+                header("Location: /?error=student_exists#aanmelden");
+            }
+        }
     }
-    catch(Exception)
+}
+
+// insert input values
+try {
+    $conn = openConn();
+    
+    // groep
+    $stmt = $conn->prepare("INSERT INTO `groep` (`Naam`) VALUES (?)");
+    $stmt->bind_param("s", $groupsname);
+
+    $groupsname = $_POST["groupsname"];
+    $stmt->execute();
+
+    // groepTijdslot
+    $sql = "SELECT * FROM `groep` WHERE Naam = $groupsname;";
+    $resultGroep = $conn->query($sql);
+
+    $stmt = $conn->prepare("INSERT INTO `groeptijdslot` (`GroepId`, `TijdslotId`) VALUES (?, ?)");
+    $stmt->bind_param("ss", $GroepId, $TijdslotId);
+
+    $GroepId = $resultGroep["GroepId"];
+    $TijdslotId = $_POST["time"];
+    $stmt->execute();
+
+    // student
+    $stmt = $conn->prepare("INSERT INTO `student` (`Studentnummer`, `Naam`, `Email`, `GroepId`) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $Studentnummer, $Naam, $Email, $GroepId);
+
+    for($i = 1; $i <= $_POST["nrStudents"]; $i++)
     {
-        header("location: index.php");
+        $Studentnummer = $_POST["student{$i}Nr"];
+        $Naam = $_POST["student{$i}Name"];
+        $Email = $_POST["student{$i}Email"];
+        $GroepId = $resultGroep['GroepId'];
+        $stmt->execute();
     }
 
-    for($i = 0; $i < $_POST["nrStudents"]; $i++)
-    {
-        $stmt = $pdo->prepare("INSERT INTO Student(Studentnummer, Naam, Email, GroepId) VALUES (?, ?, ?, ?)");
-        try
-        {
-            $row = $result1->fetch();
-            $result = $stmt->execute([$_POST["student" . $i + 1 . "Nr"], $_POST["student" . $i + 1 . "Name"], $_POST["student" . $i + 1 . "Email"], $row['GroepId']]);
-        }
-        catch(Exception)
-        {
-            header("location: index.php");
-        }
-    }
+    $stmt->close();
+    closeConn($conn);
+} 
+catch (Exception $e) {
+    header("Location: /?error=insert#aanmelden");
 }
+
+
+
+/*
+
+TODO : ADD MAIL
 
 // send email 
 $mail = new PHPMailer(true);
@@ -124,6 +131,7 @@ try {
     echo "Er is iets mis gegaan.";
 }
 
-
 header("location: bevestiging.php");
+
+*/
 ?>

@@ -1,39 +1,19 @@
 <?php
-$user = 'root';
-$password = "";
-$name = "Reserveringssysteem";
-$host = "127.0.0.1:433";
 
-$pdo = null;
+include "includes/db-functions.php";
 
-// Starten van een DB connectie
-function startConnection()
-{
-    global $pdo;
-    // Open de database connectie en ODBC driver
-    try
-    {
-        $pdo = new PDO("mysql:host=127.0.0.1;dbname=Reserveringssysteem", 'root', "");
-    }
-    catch (PDOException $e)
-    {
-        header("location: index.php");
-    }
-}
+try {
+    $conn = openConn();
 
-// Start de database verbinding
-startConnection();
-
-$query = "SELECT * FROM Tijdslot";
-
-try
-{
-    // Query uitvoeren
-    $result = $pdo->query($query);
-}
-catch (PDOException $e)
-{
-    header("location: index.php");
+    $sql1 = "SELECT `TijdslotId` FROM `groeptijdslot`";
+    $resultGroeptijdslot = $conn->query($sql1);
+    
+    $sql = "SELECT * FROM `tijdslot`";
+    $result = $conn->query($sql);
+    
+    closeConn($conn);
+} catch (Exception $e) {
+    echo "Database Error. Probeer later opnieuw of neem contact op met <a href='mailto:info@escapedetombe.nl'>info@escapedetombe.nl</a>";
 }
 
 ?>
@@ -75,29 +55,59 @@ catch (PDOException $e)
                 </p>
 
                 <form action="confirm.php" method="post" autocomplete="off">
-                    <p class="error-msg"></p>
+                    <p class="error-msg">
+                        <?php 
+                            if (isset($_GET["error"])) {
+                                switch ($_GET["error"]) {
+                                    case "groep_exists":
+                                        $msg = "Deze groep bestaat al. Kies een unieke naam!";
+                                        break;
+                                    case "student_exists":
+                                        $msg = "Een van de studenten bestaat al.";
+                                        break;
+                                    case "insert":
+                                        $msg = "Het aanmaken is niet gelukt. Probeer het (later) opnieuw of neem <a href='mailto:info@escapedetombe.nl'>contact</a> op.";
+                                        break;
+                                    default:
+                                        $msg = "Er is iets misgegaan. Probeer het (later) opnieuw of neem <a href='mailto:info@escapedetombe.nl'>contact</a> op.";
+                                        break;
+                                }
+                                echo $msg; 
+                            }
+                        ?>
+                    </p>
+
                     <div class="flex">
                         <div>
                             <label for="groupsname">Wat is jullie groepsnaam?*</label>
                             <input type="text" name="groupsname" id="groupsname" placeholder="Vul je unieke groepsnaam in..." required>
                         </div>
                         <div>
-                            <label for="time">Kies een tijdsperiode voor hoelaat jullie komen*</label>
+                            <label for="time">Hoelaat willen jullie komen?*</label>
                             <select name="time" id="time" required>
                                 <option value="" disabled selected hidden>Kies een tijd</option>
-                                
-                                <!-- TODO : php loop options hierin die nog vrij zijn -->                                
-                                <?php 
-                                while($row = $result->fetch()) 
-                                {
-                                    $time = $row['Tijd'];
-                                    $starttime = date("H:i", strtotime($time));
-                                    $endtime = date("H:i", strtotime("+40 minutes",strtotime($time)));
-                            
-                                    echo("<option value=" . $row['TijdslotId'] . ">" . $starttime . " - " . $endtime . "</option>");
-                                }
+                                                      
+                                <?php
+                                    if ($result->num_rows > 0) {
+                                        if ($resultGroeptijdslot->num_rows > 0) {
+                                            $tijdslotRow = $resultGroeptijdslot->fetch_assoc();
+                                        }
+                                        while($row = $result->fetch_assoc()) {
+                                            if ($resultGroeptijdslot->num_rows > 0) {
+                                                if (in_array($row["TijdslotId"], $tijdslotRow)) {
+                                                    continue;
+                                                }
+                                            }
+                                            
+                                            $time = substr($row['Tijd'], 10);
+                                            $time = substr($time, 0, -3);
+
+                                            echo "<option value=" . $row['TijdslotId'] . ">" . $time . "</option>";
+                                        }
+                                    } else {
+                                        echo "<option value='' disabled>Er is iets mis gegaan..</option>";
+                                    }
                                 ?>
-                               
                             </select>
                         </div>
                     </div>
