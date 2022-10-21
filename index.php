@@ -71,7 +71,7 @@ catch (PDOException $e)
                 <h2>Meld je aan</h2>
                 <p>
                     Wat leuk dat jij mee wilt doen aan de escape room! Vul onderstaand formulier in met jouw groepje om je in te schrijven. Als je klaar bent klik je op de knop en dan ontvang je een bevestiging in je mailbox. <br>
-                    Heb je vragen? Mail je vraag naar <a href="mailto:info@escaperoomkw1c.nl">info@escaperoomkw1c.nl</a>.
+                    Heb je vragen? Mail je vraag naar <a href="mailto:info@escapedetombe.nl">info@escapedetombe.nl</a>.
                 </p>
 
                 <form action="confirm.php" method="post" autocomplete="off">
@@ -154,13 +154,13 @@ catch (PDOException $e)
             <div>
                 <h3>Reservering wijzigen?</h3>
                 <p>
-                    Stuur een mailtje naar <a href="mailto:info@escaperoomkw1c.nl">info@escaperoomkw1c.nl</a> met je groepsnaam. 
+                    Stuur een mailtje naar <a href="mailto:info@escapedetombe.nl">info@escapedetombe.nl</a> met je groepsnaam. 
                     Zet hier in wat je wilt veranderen.
                 </p>
                 <p>
                     Zodra dit is veranderd ontvang je wederom een email met de nieuwe gegevens.
                 </p>
-                <a href="mailto:info@escaperoomkw1c.nl" class="btn btn--secondary">Stuur een mail</a>
+                <a href="mailto:info@escapedetombe.nl" class="btn btn--secondary">Stuur een mail</a>
             </div>
         </div>
     </section>
