@@ -5,7 +5,7 @@
             </div>
             <div>
                 <a href="#" class="btn btn--secondary" onclick="return changeReservation();">Reservering bewerken</a>
-                <a href="#aanmelden" class="btn btn--primary">Meld je nu aan!</a>
+                <a href="/#aanmelden" class="btn btn--primary">Meld je nu aan!</a>
             </div>
         </div>
     </header>
