@@ -124,7 +124,7 @@ try {
     $mail->Host       = 'mail.mijndomein.nl';                   //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = "noreply@escapedetombe.nl";                //SMTP username
-    $mail->Password   = "$0sbMN7Bz@f1l2B";                      //SMTP password
+    $mail->Password   = "****";                      //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
     $mail->Port       = 587;                                    //TCP port to connect to
 
