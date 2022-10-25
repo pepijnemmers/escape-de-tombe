@@ -65,13 +65,17 @@ try {
     $stmt->execute();
 
     // groepTijdslot
-    $sql = "SELECT * FROM `groep` WHERE Naam = $groupsname;";
+    $sql = "SELECT * FROM `groep` WHERE Naam = '". $groupsname ."'";
     $resultGroep = $conn->query($sql);
+
+    if ($resultGroep->num_rows > 0) {
+        $groepRow = $resultGroep->fetch_assoc();
+    }
 
     $stmt = $conn->prepare("INSERT INTO `groeptijdslot` (`GroepId`, `TijdslotId`) VALUES (?, ?)");
     $stmt->bind_param("ss", $GroepId, $TijdslotId);
 
-    $GroepId = $resultGroep["GroepId"];
+    $GroepId = $groepRow["GroepId"];
     $TijdslotId = $_POST["time"];
     $stmt->execute();
 
@@ -96,6 +100,19 @@ catch (Exception $e) {
 }
 
 
+// getting email html code and inserting variables
+$Groepsnaam = $_POST["groupsname"];
+$Tijd = $_POST["time"];
+$Datum = "15-11-2022 " . $_POST["time"];
+$Lokaal = "OE1250";
+$LinkOnline = "https://escapedetombe.nl/email/bevestiging?group=$Groepsnaam&datum=$Tijd&lokaal=$Lokaal";
+
+$html_mail = file_get_contents("email.php");
+$html_mail = str_replace("{{LinkOnline}}", $LinkOnline, $html_mail);
+$html_mail = str_replace("{{Groepsnaam}}", $Groepsnaam, $html_mail);
+$html_mail = str_replace("{{Datum}}", $Datum, $html_mail);
+$html_mail = str_replace("{{Lokaal}}", $Lokaal, $html_mail);
+
 // send email 
 $mail = new PHPMailer(true);
 
@@ -107,7 +124,7 @@ try {
     $mail->Host       = 'mail.mijndomein.nl';                   //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = "noreply@escapedetombe.nl";                //SMTP username
-    $mail->Password   = "H1lBOG8d8%RT&4F";                      //SMTP password
+    $mail->Password   = "$0sbMN7Bz@f1l2B";                      //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
     $mail->Port       = 587;                                    //TCP port to connect to
 
@@ -122,7 +139,7 @@ try {
     //Content
     $mail->isHTML(true);                                        //Set email format to HTML
     $mail->Subject = 'Uw reservering voor de Escaperoom is geslaagd!';
-    $mail->Body    = "Content";
+    $mail->Body    = $html_mail;
     $mail->AltBody = 'Please use an e-mail provider that supports HTML mail.';
 
     $mail->send();
