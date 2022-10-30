@@ -99,24 +99,40 @@ catch (Exception $e) {
     header("Location: /?error=insert#aanmelden");
 }
 
-try {
-    $sql = "SELECT * FROM `tijdslot` WHERE `TijdslotId` = '". $_POST["time"] ."'";
-    $resultTijd = $conn->query($sql);
-
-    if ($resultTijd->num_rows > 0) {
-        $tijdRow = $resultTijd->fetch_assoc();
-    }
-    $tijdString = $tijdRow["Tijd"];
-    $tijdString = substr($tijdString, 0, -3);
-    $tijdString = substr($tijdString, 11);
-} catch (Exception $e) {
-    $tijdString = "Onbekend";
+// get chosen time
+switch ($_POST["time"]) {
+    case "1":
+        $tijdString = "08:30";
+        break;
+    case "2":
+        $tijdString = "09:30";
+        break;
+    case "3":
+        $tijdString = "10:30";
+        break;
+    case "4":
+        $tijdString = "11:30";
+        break;
+    case "5":
+        $tijdString = "12:30";
+        break;
+    case "6":
+        $tijdString = "13:30";
+        break;
+    case "7":
+        $tijdString = "14:30";
+        break;
+    case "8":
+        $tijdString = "15:30";
+        break;
+    default:
+        $tijdString = "Onbekend";
+        break;
 }
-
 
 // getting email html code and inserting variables
 $Groepsnaam = $_POST["groupsname"];
-$Tijd = $tijdString; // $_POST["time"];
+$Tijd = $tijdString;
 $Datum = "15-11-2022 " . $Tijd;
 $Lokaal = "OE1250";
 $LinkOnline = "https://escapedetombe.nl/email/bevestiging?group=$Groepsnaam&datum=$Tijd&lokaal=$Lokaal";
